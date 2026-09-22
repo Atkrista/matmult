@@ -1,0 +1,34 @@
+.gitignore
+  h_edba64bc5ba984 3
+CMakeLists.txt
+  h_edba64bc5ba984 6-7,9-10,12-13,15,17-19,21-23,25-27
+benchmarks/CMakeLists.txt
+  h_edba64bc5ba984 1-10
+benchmarks/bench_kernels.cpp
+  h_edba64bc5ba984 6-32,52-72
+helpers/CMakeLists.txt
+  h_edba64bc5ba984 1-6
+helpers/include/matmult/helpers.hpp
+  h_edba64bc5ba984 2-4,10-21,27-28,31
+helpers/src/helpers.cpp
+  h_edba64bc5ba984 1-20
+include/matmult/kernels.hpp
+  h_edba64bc5ba984 3,12,14-19,21-39
+notebooks/peak-flops.ipynb
+  h_edba64bc5ba984 1-266
+tests/CMakeLists.txt
+  h_edba64bc5ba984 1-17
+tests/test_kernels.cpp
+  h_edba64bc5ba984 1,33-51,53-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "071babf537bbcb3e5a6cb7db1525ef5e7f3169ea",
+  "prompts": {},
+  "humans": {
+    "h_edba64bc5ba984": {
+      "author": "Atul Khatri <mail@nakedmoleratmess.org>"
+    }
+  }
+}
