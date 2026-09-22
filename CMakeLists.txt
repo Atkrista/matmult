@@ -3,38 +3,25 @@ project(MatMult VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-#find_package(BLAS CONFIG REQUIRED)
-#find_package(benchmark REQUIRED)
-find_library(BLAS_LIB NAMES openblas PATHS REQUIRED)
-
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-)
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-add_subdirectory(benchmark)
-
+set(CMAKE_CXX_FLAGS "-O2 -march=native")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-add_executable(program program.cpp)
 
-find_path(BLAS_INCLUDE_DIR cblas.h PATH_SUFFIXES openblas REQUIRED)
-target_include_directories(program PRIVATE include/ ${BLAS_INCLUDE_DIR})
-target_link_libraries(program PRIVATE  ${BLAS_LIB} benchmark::benchmark_main)
+option(MATMULT_BUILD_TESTS "Build tests" ${PROJECT_IS_TOP_LEVEL})
+option(MATMULT_BUILD_BENCHMARKS "Build tests" ${PROJECT_IS_TOP_LEVEL})
 
-enable_testing()
-include(GoogleTest)
+add_library(matmult INTERFACE)
+add_library(matmult::matmult ALIAS matmult)
 
-add_executable(test_kernels test_kernels.cpp)
+target_include_directories(matmult INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 
-target_include_directories(test_kernels PRIVATE include/ ${BLAS_INCLUDE_DIR})
-target_link_libraries(
-  test_kernels
-  ${BLAS_LIB}
-  GTest::gtest_main
-)
-gtest_discover_tests(test_kernels)
+if(MATMULT_BUILD_TESTS OR MATMULT_BUILD_BENCHMARKS)
+  add_subdirectory(helpers)
+endif()
+
+if(MATMULT_BUILD_TESTS)
+  add_subdirectory(tests)
+endif()
+
+if(MATMULT_BUILD_BENCHMARKS)
+  add_subdirectory(benchmarks)
+endif()
